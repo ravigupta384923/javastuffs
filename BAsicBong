@@ -1,0 +1,60 @@
+import zen.core.Zen;
+public class BasicPong {
+	public static void main(String[] args) {
+		Zen.create(600,600);		
+		int ax = 250;
+		int ay = 250;
+		int bx = 295;
+		int by = 295;
+		int balldx = Zen.getRandomNumber(-10,10);
+		int balldy = Zen.getRandomNumber(-10,10);
+		while(true){
+			Zen.setBackground("white");
+			Zen.setColor("red");
+			Zen.fillOval(bx, by, 20, 20);
+			bx = bx + balldx;
+			by = by + balldy;
+			if(bx<=0){
+				balldx = -balldx;
+			}
+			if(bx>=580){
+
+				balldx = -balldx;
+			}
+			if(by<=0){
+				balldy = -balldy;
+			}
+			if(by>=580){
+				balldy = -balldy;
+			}
+			Zen.setColor("green");
+			Zen.fillRect(ax, 550, 100, 15);
+			if(ax<500){
+				if(Zen.isKeyPressed("right")){
+					ax = ax + 7;
+				}
+			}
+			if(ax>0){
+				if(Zen.isKeyPressed("left")){
+					ax = ax - 7;
+				}
+			}
+			Zen.setColor("blue");
+			Zen.fillRect(ay, 50, 100, 15);
+			if(ay<500){
+				if(Zen.isKeyPressed("d")){
+					ay = ay + 7;
+				}
+			}
+			if(ay>0){
+				if(Zen.isKeyPressed("a")){
+					ay = ay - 7;
+				}
+			}
+			if(ax==bx&&by==550){
+				balldx=-balldx;
+			}
+			Zen.buffer(33);
+		}
+	}
+}
