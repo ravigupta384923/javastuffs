@@ -18,41 +18,45 @@ public class BasicPong {
 				balldx = -balldx;
 			}
 			if(bx>=580){
-
 				balldx = -balldx;
 			}
 			if(by<=0){
 				balldy = -balldy;
+				by = 295;
 			}
 			if(by>=580){
 				balldy = -balldy;
+				by = 295;
 			}
 			Zen.setColor("green");
 			Zen.fillRect(ax, 550, 100, 15);
 			if(ax<500){
 				if(Zen.isKeyPressed("right")){
-					ax = ax + 7;
+					ax = ax + 5;
 				}
 			}
 			if(ax>0){
 				if(Zen.isKeyPressed("left")){
-					ax = ax - 7;
+					ax = ax - 5;
 				}
 			}
 			Zen.setColor("blue");
 			Zen.fillRect(ay, 50, 100, 15);
 			if(ay<500){
 				if(Zen.isKeyPressed("d")){
-					ay = ay + 7;
+					ay = ay + 5;
 				}
 			}
 			if(ay>0){
 				if(Zen.isKeyPressed("a")){
-					ay = ay - 7;
+					ay = ay - 5;
 				}
 			}
-			if(ax==bx&&by==550){
-				balldx=-balldx;
+			if(ax<=bx+50&&ax>=bx-50&&by<=557.5&&by>=542.5){
+				balldy=-balldy;
+			}
+			if(ay<=bx+50&&ay>=bx-50&&by<=57.5&&by>=42.5){
+				balldy=-balldy;
 			}
 			Zen.buffer(33);
 		}
