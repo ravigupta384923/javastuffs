@@ -1,0 +1,35 @@
+package BouncingBall;
+
+import java.util.ArrayList;
+
+import zen.core.Zen;
+
+public class BouncingBalls {
+	public static void main(String[]args){
+		Zen.create(500, 500);
+		ArrayList<Ball> ballList = new ArrayList<Ball>();
+		int count = 0;
+		while(count<100){
+			Ball b = new Ball();
+			ballList.add(b);
+			count++;
+
+		}
+		while(true){
+			Zen.setBackground("light green");
+			for(Ball b1 : ballList){
+				b1.draw();
+				b1.move();
+				for(Ball b2 : ballList){
+					if(b1.collides(b2)){
+						b1.balldx = -b1.balldx;
+						b2.balldx = -b2.balldx;
+						b1.balldy = -b1.balldy;
+						b2.balldy = -b2.balldy;
+					}
+				}
+			}
+			Zen.buffer(40);
+		}
+	}
+}
