@@ -1,0 +1,48 @@
+package BrickBreaker;
+import java.util.ArrayList;
+import zen.core.Zen;
+public class BrickBreaker {
+	static ArrayList<Brick> bricks = new ArrayList<Brick>();
+	static Ball ball = new Ball();
+	public static void main(String[] args) {
+		Zen.create(400, 600);
+		setup();
+		while(true){
+			Zen.setBackground("white");
+			loop();
+			Zen.buffer(33);
+		}
+
+	}
+
+	private static void loop() {
+		ball.draw();
+		ball.move();
+		int index = 0;
+		while(index < bricks.size()){
+			Brick b = bricks.get(index);
+			b.draw();
+			if(b.isTouching(ball)) {
+				bricks.remove(index);
+			}
+			else {
+				index = index + 1;
+			}
+		}
+	}
+
+	private static void setup() {
+		ball.setup();
+		Brick b;
+		int y = 100;		
+		while(y<300){
+			int x = 50;
+			while(x<400){
+				b = new Brick();
+				b.setup(x,y);
+				bricks.add(b);
+				x = x + 50;
+
+			}
+			y=y+30;
+		}
