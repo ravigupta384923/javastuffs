@@ -1,0 +1,29 @@
+package BrickBreaker;
+
+import zen.core.Zen;
+public class Paddle {
+	int x = 200; 
+	int y = 550;
+	public void move(){
+			
+			if(Zen.isKeyPressed("right")){
+				x=x+5;
+			}
+			if(Zen.isKeyPressed("left")){
+				x=x-5;
+			}
+		}
+	public void draw(){
+
+		Zen.setColor("blue");
+		Zen.fillRect(x-40, y-10, 80, 20);
+		
+	}
+	public boolean isTouching(Ball ball) {
+		if( Math.abs(x-ball.x)<70 && Math.abs(y-ball.y)<20){
+			ball.dy = -ball.dy;
+			return true;
+		}
+		return false;
+	}
+}
