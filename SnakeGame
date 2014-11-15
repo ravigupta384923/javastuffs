@@ -1,0 +1,26 @@
+import zen.core.Zen;
+
+
+public class SnakeGame {
+	public static void main (String [] args){
+		Zen.create(500, 500);
+		Snake head = new Snake();
+		Food snakeFood = new Food();
+		head.grow();
+		while(true){
+			Zen.setBackground("black");
+			snakeFood.draw();
+			if(snakeFood.x == head.x && snakeFood.y == head.y) {
+				head.grow();
+				snakeFood = new Food();
+			}
+			head.draw();
+			head.move();
+			head.checkKeys();
+			if(head.dead()){
+				head.die();
+			}
+			Zen.buffer(33);
+		}
+	}
+}
