@@ -1,0 +1,44 @@
+package Balls;
+
+import zen.core.Zen;
+
+
+
+public class Balling {
+	int ballx;
+	int bally;
+	int balldx;
+	int balldy;
+	public Balling(){
+		ballx = Zen.getRandomNumber(20,480);
+		bally = Zen.getRandomNumber(20,480);
+		balldx = Zen.getRandomNumber(-2,2);
+		balldy = Zen.getRandomNumber(-2,2);
+	}
+	public void draw() {
+		if(ballx>200&&ballx<300&&bally>200&&bally<300){
+			Zen.setColor("red");
+		}
+		else{
+			Zen.setColor("white");
+		}
+		Zen.fillOval(ballx - 20, bally - 20, 40, 40);
+		
+	}
+	public void move(){
+		ballx = ballx - balldx;
+		bally = bally - balldy;
+		if(ballx < 20 || ballx > 480){
+			balldx = -balldx;
+		}
+		if(bally < 20 || bally > 480){
+			balldy = -balldy;
+		}
+	}
+	public boolean collides(Balling b) {
+		if(Math.abs(ballx - b.ballx) < 20 && Math.abs(bally - b.bally) < 20){
+			return true;
+		}
+		return false;
+	}
+}
