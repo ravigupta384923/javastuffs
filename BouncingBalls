@@ -9,7 +9,7 @@ public class BouncingBalls {
 		Zen.create(500, 500);
 		ArrayList<Ball> ballList = new ArrayList<Ball>();
 		int count = 0;
-		while(count<100){
+		while(count<30){
 			Ball b = new Ball();
 			ballList.add(b);
 			count++;
@@ -21,11 +21,21 @@ public class BouncingBalls {
 				b1.draw();
 				b1.move();
 				for(Ball b2 : ballList){
+
 					if(b1.collides(b2)){
+						if(b1.random==2){
+							b2.health = b2.health - 255;
+						}
+						if(b2.random==2){
+							b1.health = b1.health - 255;
+
+						}
 						b1.balldx = -b1.balldx;
 						b2.balldx = -b2.balldx;
 						b1.balldy = -b1.balldy;
 						b2.balldy = -b2.balldy;
+
+
 					}
 				}
 			}
