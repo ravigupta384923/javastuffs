@@ -8,31 +8,31 @@ public class Ball {
 	int balldx;
 	int balldy;
 	String color;
-	
+	int random;
+	int health;
+
 	public Ball(){
 		ballx = Zen.getRandomNumber(10,490);
 		bally = Zen.getRandomNumber(10,490);
 		balldx = Zen.getRandomNumber(-10,10);
 		balldy = Zen.getRandomNumber(-10,10);
-		int random = Zen.getRandomNumber(1,4);
-		if(random == 1){
-			color = "purple";
+		random = Zen.getRandomNumber(1,10);
+		health = 0;
+		if(random == 1 || random == 2 || random == 3 || random == 4 ||
+				random == 5 ||random == 6 ||random == 7 ||random == 8 ||random == 9){
+			Zen.addColor("healthy", 0, 0, health + 255);
+			color = "healthy";
 		}
-		else if(random == 2){
-			color = "blue";
-		}
-		else if(random == 3){
-			color = "red";
-		}
-		else{
-			color = "black";
+		else if(random == 10){
+			Zen.addColor("infected", 0, 0, 0);
+			color = "infected";
 		}
 	}
-	
+
 	public void draw() {
 		Zen.setColor(color);
 		Zen.fillOval(ballx - 10, bally - 10, 20, 20);
-		
+
 	}
 	public void move(){
 		ballx = ballx - balldx;
@@ -48,6 +48,7 @@ public class Ball {
 		if(Math.abs(ballx - b.ballx) < 20 && Math.abs(bally - b.bally) < 20){
 			return true;
 		}
+
 		return false;
 	}
 }
