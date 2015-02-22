@@ -1,0 +1,225 @@
+
+import zen.core.Zen;
+
+public class Play2048 {
+	static int[][] board;
+
+	private static final int UP = 0;
+	private static final int DOWN = 1;
+	private static final int LEFT = 2;
+	private static final int RIGHT = 3;
+
+	public static void main(String[] args) {
+		Zen.create(410, 410);
+
+		setup();
+		draw();
+		while (true) {
+			if(Zen.isKeyPressed("right")){
+				direction(RIGHT);
+
+			}
+			if(Zen.isKeyPressed("left")){
+				direction(LEFT);
+			}
+			if(Zen.isKeyPressed("up")){
+				direction(UP);
+			}
+			if(Zen.isKeyPressed("down")){
+				direction(DOWN);
+			}
+		}
+	}
+
+	private static void direction(int d) {
+		boolean moved = false;
+		if(move(d)){
+			moved = true;
+		}
+		if(combine(d)){
+			moved = true;
+		}
+		if(move(d)){
+			moved = true;
+		}
+		if(gameOver()){
+
+		}
+		else if (moved){
+			int x = Zen.getRandomNumber(0, 3);
+			int y = Zen.getRandomNumber(0, 3);
+			while(board[x][y] > 0){
+				x = Zen.getRandomNumber(0,3);
+				y = Zen.getRandomNumber(0,3);
+			}
+			if(Zen.dice(5) == 1){
+				board[x][y] = 4;
+			}
+			else {
+				board[x][y] = 2;
+			}
+		}
+		draw();
+
+	}
+
+	private static boolean gameOver() {
+		return false;
+	}
+
+	private static boolean combine(int direction) {
+		boolean combined = false;
+		for(int i = 0; i < 3; i++){
+			if(direction == RIGHT){
+				for(int y = 0; y < 4; y++){
+					for(int x = 3; x > 0; x--){
+						if(board[x][y] > 0 && board[x][y] == board[x-1][y]){
+							board[x][y] = board[x][y] * 2;
+							board[x - 1][y] = 0;
+							combined = true;
+						}
+					}
+				}
+			}
+			if(direction == LEFT){
+				for(int y = 0; y < 4; y++){
+					for(int x = 0; x < 3; x++){
+						if(board[x][y] > 0 && board[x][y] == board[x+1][y]){
+							board[x][y] = board[x][y] * 2;
+							board[x + 1][y] = 0;
+							combined = true;
+						}
+					}
+				}
+			}
+			if(direction == UP){
+				for(int y = 0; y < 3; y++){
+					for(int x = 4; x > 0; x++){
+						if(board[x][y] > 0 && board[x][y] == board[x][y+1]){
+							board[x][y] = board[x][y] * 2;
+							board[x][y+1] = 0;
+							combined = true;
+						}
+					}
+				}
+			}
+			if(direction == DOWN){
+				for(int y = 3; y > 0; y--){
+					for(int x = 0; x < 4; x++){
+						if(board[x][y] > 0 && board[x][y] == board[x][y-1]){
+							board[x][y] = board[x][y] * 2;
+							board[x][y-1] = 0;
+							combined = true;
+						}
+					}
+				}
+			}
+		}
+		return combined;
+	}
+
+	private static boolean move(int direction) {
+		boolean mover = false;
+		for(int i = 0; i < 3; i++){
+			if(direction == RIGHT){
+				for(int y = 0; y < 4; y++){
+					for(int x = 0; x < 3; x++){
+						if(board[x][y] > 0 && board[x+1][y] == 0){
+							board[x+1][y] = board[x][y];
+							board[x][y] = 0;
+							mover = true;
+						}
+					}
+				}
+			}
+			if(direction == LEFT){
+				for(int y = 0; y < 4; y++){
+					for(int x = 3; x > 0; x--){
+						if(board[x][y] < 3 && board[x-1][y] == 0){
+							board[x-1][y] = board[x][y];
+							board[x][y] = 0;
+							mover = true;
+						}
+					}
+				}
+			}
+			if(direction == UP){
+				for(int y = 3; y > 0; y--){
+					for(int x = 0; x < 4; x++){
+						if(board[x][y] < 3 && board[x][y-1] == 0){
+							board[x][y-1] = board[x][y];
+							board[x][y] = 0;
+							mover = true;
+						}
+					}
+				}	
+			}
+			if(direction == DOWN){
+				for(int y = 0; y < 3; y++){
+					for(int x = 0; x < 4; x++){
+						if(board[x][y] > 0 && board[x][y+1] == 0){
+							board[x][y+1] = board[x][y];
+							board[x][y] = 0;
+							mover = true;
+						}
+					}
+				}
+			}
+		}
+		return mover;
+	}
+
+	private static void setup() {
+		board = new int[4][4];
+		board[Zen.getRandomNumber(0, 3)][Zen.getRandomNumber(0, 3)] = 2;
+		board[0][0] = 2;
+		board[2][3] = 2;
+		board[1][2] = 2;
+		board[2][2] = 2;
+	}
+
+	private static void draw() {
+		Zen.setBackground("tan");
+		for (int x = 0 ; x < 4 ; x++) {
+			for (int y = 0 ; y < 4 ; y++) {
+				int offset = 0;
+				switch(board[x][y]) {
+				case 0: Zen.setColor("light goldenrod"); break;
+				case 2: Zen.setColor("light gray"); break;
+				case 4: Zen.setColor("light green"); break;
+				case 8: Zen.setColor("light blue"); break;
+				case 16: Zen.setColor("light salmon"); break;
+				case 32: Zen.setColor("light sky blue"); break;
+				case 64: Zen.setColor("light pink"); break;
+				default: Zen.setColor("yellow"); break;
+				}
+				Zen.fillRect(10 + x * 100, 10 + y * 100, 90, 90);
+
+				if (board[x][y] > 0 && board[x][y] < 10) {
+					Zen.setFont("Arial", 50);
+					offset = 20;
+				}
+				else if (board[x][y] > 10 && board[x][y] < 100) {
+					Zen.setFont("Arial", 40);
+					offset = 10;
+				}
+				else if (board[x][y] > 100 && board[x][y] < 1000) {
+					Zen.setFont("Arial", 30);
+					offset = 5;
+				}
+				else if (board[x][y] > 1000) {
+					Zen.setFont("Arial", 25);
+					offset = 0;
+				}
+
+				if (board[x][y] > 0) {
+					Zen.setColor("white");
+					Zen.drawText("" + board[x][y], 20 + offset + x * 100, 70 + y * 100);
+				}
+			}
+		}
+
+		Zen.buffer(500);
+	}
+
+}
