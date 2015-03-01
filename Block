@@ -1,0 +1,71 @@
+package Tetris;
+
+import zen.core.Zen;
+
+public class Block {
+	public static final int UP = 1;
+	public static final int DOWN = 2;
+	public static final int LEFT = 3;
+	public static final int RIGHT = 4;
+	Block[][] board;
+	int x;
+	int y;
+	int type = Zen.dice(7);
+	int rotate;
+	public void move(){
+		if (y + 1 < Tetris.HEIGHT && board[x][y+1] == null){
+			board[x][y+1] = board[x][y];
+			board[x][y] = null;
+			y++;
+		}
+	}
+	public void moveLeft(){
+		if(x>0 && board[x-1][y] == null){
+			board[x-1][y] = board[x][y];
+			board[x][y] = null;
+			x= x-1;
+		}
+	}
+	public void moveRight(){
+		if(x + 1 < Tetris.WIDTH && board[x+1][y] == null){
+			board[x+1][y] = board[x][y];
+			board[x][y] = null;
+			x=x+1;
+		}
+	}
+	public void rect(int x,int y, int width, int height){
+		Zen.fillRect(x*Tetris.SCALE, y*Tetris.SCALE, Tetris.SCALE, Tetris. SCALE);
+	}
+	public void draw(){
+		if(type == 1){
+			Zen.setColor("red");
+		}
+		if(type == 2){
+			Zen.setColor("green");
+		}
+		if(type == 3){
+			Zen.setColor("blue");
+		}
+		if(type == 4){
+			Zen.setColor("yellow");
+		}
+		if(type == 5){
+			Zen.setColor("orange");
+		}
+		if(type == 6){
+			Zen.setColor("violet");
+		}
+		if(type == 7){
+			Zen.setColor("indigo");
+		}
+	}
+	public boolean atBottom(){
+		if(y + 1 == Tetris.HEIGHT){
+			return true;
+		}
+		if(board[x][y+1] != null){
+			return true;
+		}
+		return false;
+	}
+}
