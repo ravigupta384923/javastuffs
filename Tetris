@@ -1,0 +1,53 @@
+package Tetris;
+
+import zen.core.Zen;
+
+public class Tetris {
+	public static final int WIDTH = 10;
+	public static final int HEIGHT = 20;
+	public static final int SCALE = 30;
+	static  Block[][] board;
+	static Block falling;
+	
+	public static void main(String[] args){
+		Zen.create(WIDTH * SCALE, HEIGHT * SCALE);
+		setup();
+		addBlock();
+		while(true){
+			draw();
+			move();
+			Zen.buffer(250);
+		}
+	}
+	private static void move() {
+		if(falling != null){
+			falling.move();
+			if(Zen.isKeyPressed("left")){
+				falling.moveLeft();
+			}
+			if(Zen.isKeyPressed("right")){
+				falling.moveRight();
+			}
+		}
+		
+	}
+	private static void setup() {
+		board = new Block[WIDTH][HEIGHT];
+	}
+	public static void addBlock(){
+		falling = new Block();
+		falling.x = WIDTH / 2;
+		falling.y = 0;
+		falling.board = board;
+		board[WIDTH / 2][0] = falling;
+	}
+	public static void draw(){
+		for(int x = 0; x < WIDTH; x++){
+			for(int y = 0; y < HEIGHT; y++){
+				if(board[x][y] != null){
+					board[x][y].draw();
+				}
+			}
+		}
+	}
+}
