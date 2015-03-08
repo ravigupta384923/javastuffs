@@ -1,50 +1,53 @@
-package Tetris;
+package bettertetris;
+
+import java.util.ArrayList;
 
 import zen.core.Zen;
 
 public class Tetris {
-	public static final int WIDTH = 10;
+
 	public static final int HEIGHT = 20;
+	public static final int WIDTH = 10;
 	public static final int SCALE = 30;
-	static  Block[][] board;
-	static Block falling;
 	
-	public static void main(String[] args){
+	static Block[][] board;
+	static ArrayList <TetrisBlock> blocks;
+	static TetrisBlock falling;
+	
+	public static void main(String[] args) {
+		board = new Block[WIDTH][HEIGHT];
+		blocks = new ArrayList <TetrisBlock> ();
+		
 		Zen.create(WIDTH * SCALE, HEIGHT * SCALE);
-		setup();
+		
 		addBlock();
-		while(true){
+		while (true) {
 			draw();
 			move();
-			Zen.buffer(250);
+			Zen.buffer(33);
 		}
 	}
+	
 	private static void move() {
-		if(falling != null){
+		if (falling.canMove()) {
 			falling.move();
-			if(Zen.isKeyPressed("left")){
-				falling.moveLeft();
-			}
-			if(Zen.isKeyPressed("right")){
-				falling.moveRight();
-			}
 		}
-		
+		else {
+			addBlock();
+		}
 	}
-	private static void setup() {
-		board = new Block[WIDTH][HEIGHT];
+
+	public static void addBlock() {
+		falling = new TetrisBlock(WIDTH / 2, 3);
+		falling.setBoard(board);
+		blocks.add(falling);
 	}
-	public static void addBlock(){
-		falling = new Block();
-		falling.x = WIDTH / 2;
-		falling.y = 0;
-		falling.board = board;
-		board[WIDTH / 2][0] = falling;
-	}
-	public static void draw(){
-		for(int x = 0; x < WIDTH; x++){
-			for(int y = 0; y < HEIGHT; y++){
-				if(board[x][y] != null){
+	
+	public static void draw() {
+		Zen.setBackground("black");
+		for (int x = 0 ; x < WIDTH ; x++) {
+			for (int y = 0 ; y < HEIGHT ; y++) {
+				if (board[x][y] != null) {
 					board[x][y].draw();
 				}
 			}
