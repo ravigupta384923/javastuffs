@@ -1,0 +1,216 @@
+package tictactoe;
+import apcs.*;
+public class Main {
+	static int[][] grid;
+	static int player;
+	static boolean gameover;
+	public static void main(String [] args){
+		Window.size(600, 600);
+		setup();
+		while(true){
+			Window.out.background("white");
+			drawBackground();
+			move();
+			Window.frame(150);
+		}
+	}
+	public static void setup(){
+
+		player = 1;
+		gameover = false;
+		grid = new int[3][3];
+	}
+	public static void drawBackground(){
+		Window.out.color("black");
+		Window.out.rectangle(200, Window.height()/2, 20, 550);
+		Window.out.rectangle(400, Window.height()/2, 20, 550);
+		Window.out.rectangle(Window.height()/2,200, 550, 20);
+		Window.out.rectangle(Window.height()/2,400, 550, 20);
+		Window.out.font("arial", 200);
+		for (int i = 0; i < 3; i++){
+			for(int j = 0; j<3; j++){
+				if(grid[i][j] == 1){
+					Window.out.print("X", i*200, j*200 + 200);
+				}
+				else if(grid[i][j] == 2){
+					Window.out.print("O",  i*200, j*200 + 200);
+				}
+			}
+		}
+		if(player1win()){
+			Window.out.font("arial", 30);
+			Window.out.color("red");
+			Window.out.print("X Wins", Window.width()/2, Window.height()/2);
+			gameover = true;
+		}
+		if(player2win()){
+			Window.out.font("arial", 30);
+			Window.out.color("red");
+			Window.out.print("O Wins", Window.width()/2, Window.height()/2);
+			gameover = true;
+		}
+	}
+	public static void move(){
+		if(!gameover){
+			if(player == 1){
+				if(Window.mouse.clicked()){
+					int x = Window.mouse.getX();
+					int y = Window.mouse.getY();
+					loop: for(int i = 0; i < 3; i++){
+						for(int j = 0; j < 3; j++){
+							if(x >= i * 100 && x <= (i + 1) * 200 && y >= j * 200 && y <= (j + 1) * 200){
+								if(grid[i][j] == 0){
+									grid[i][j] = player;
+									player = 2;
+									break loop;
+								}
+							}
+						}
+					}
+				}
+			}
+			else if (player == 2){
+				if(Window.mouse.clicked()){
+					int x = Window.mouse.getX();
+					int y = Window.mouse.getY();
+					loop: for(int i = 0; i < 3; i++){
+						for(int j = 0; j < 3; j++){
+							if(x >= i * 100 && x <= (i + 1) * 200 && y >= j * 200 && y <= (j + 1) * 200){
+								if(grid[i][j] == 0){
+									grid[i][j] = player;
+									player = 1;
+									break loop;
+								}						
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	public static boolean player1win(){
+		int count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[i][0] == 1){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[0][i] == 1){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;for (int i = 0; i < 3; i++){
+			if(grid[i][1] == 1){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[1][i] == 1){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;for (int i = 0; i < 3; i++){
+			if(grid[i][2] == 1){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[2][i] == 1){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		if(grid[0][0] == 1 && grid[1][1] == 1 && grid[2][2] == 1){
+			return true;
+		}
+		if(grid[2][0] == 1 && grid[1][1] == 1 && grid[0][2] == 1){
+			return true;
+		}
+		return false;
+	}
+	public static boolean player2win(){
+		int count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[i][0] == 2){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[0][i] == 2){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[i][1] == 2){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[1][i] == 2){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;for (int i = 0; i < 3; i++){
+			if(grid[i][2] == 2){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		for (int i = 0; i < 3; i++){
+			if(grid[2][i] == 2){
+				count++;
+			}
+		}
+		if(count == 3){
+			return true;
+		}
+		count = 0;
+		if(grid[0][0] == 2 && grid[1][1] == 2 && grid[2][2] == 2){
+			return true;
+		}
+		if(grid[2][0] == 2 && grid[1][1] == 2 && grid[0][2] == 2){
+			return true;
+		}
+		return false;
+	}
+}
